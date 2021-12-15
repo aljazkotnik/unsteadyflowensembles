@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+
+<head lang='en'>
+  <meta charset='utf-8'>
+  <meta name='viewport' content='width=device-width'>
+  <title>Demo</title>
+  
+  
+  <link rel="shortcut icon" href="/image/favicon.png"/>
+	
+  <!-- STYLING -->  
+  <link rel="stylesheet" href="/style/fonts/roboto-condensed/roboto-condensed.css">
+  <link rel="stylesheet" href="/style/fonts/fontawesome/font-awesome_4.7.0.min.css">
+  
+  <link rel="stylesheet" href="/style/app.css">
+	
+</head>
+
+<body>
+
+  <div class="header">
+    <h1 style="display: inline-block;">Unsteady Contourplot Demo</h1>
+  </div>
+
+
+  <!-- the canvas and table-top must both be 'position: absolute' otherwise the events on svgs appended to the tabletop later on don't work.
+ 
+  Another svg is positioned between the tabletop and the canvas. It supports drawing the lasso selection, and hosts the navigation tree! It can also host zooming in and out to reduce the size of hte small multiples.
+  
+  This svg must be behind the canvas if the players should draw over the tree. However, for the tree to be interactive, it has to be on top of the canvas.
+  
+  -->
+  <div class="container">
+	<canvas id="canvas" style="position: absolute; top:0px; left:0px; outline: black 3px solid;"></canvas>
+	<svg class="lasso" height="100%" width="100%" style="position: fixed; top:0px; left:0px;">
+	  <g class="tree" transform="translate(0,60)"></g>
+	</svg>
+	<div id="table-top" style="position: absolute; top:0px;"></div>
+	
+	<!-- Head up display -->
+	<div class="hud" style="position: fixed; width: 100%; top: 0px;">
+	  <!--
+	  <div class="login" style="display: inline-block; float: right; color: gray; margin-top: 10px;">
+        Login as:
+        <input type="text" placeholder="alias" style="width: 50px"></input>
+      </div>
+	  
+	  
+	  <div style="display: inline-block; position: fixed; top: 100%; left: 100%; transform: translate(-100%, -100%)">
+	    <button class="navigation btn-small"><i class="fa fa-code-fork"></i></button>
+	  </div>
+	  -->
+	  
+	  <svg class="correlations" width="100%" height="100%" style="display: none; position: fixed; top: 0px; left: 0px;">
+	    <rect x="0" y="0" width="100%" height="100%" fill="black" opacity="0.2"></rect>
+	  </svg>
+	  
+	  
+	  <div style="display: inline-block; position: fixed; left: 100%; transform: translate(-100%, 0%)">
+	    <button class="btn-small correlations">Correlations</button>
+	    <button class="btn-small exitgroup" style="display: none;">Exit Group</button>
+	  </div>
+	  
+	  
+    </div>
+
+    	
+  </div>
+  
+  
+  <div class="navigation-background" style="display: none;">
+    <!-- Just a test svg -->
+	<svg class="navigation" width="300px" height="300px"></svg>
+  </div>
+  
+  <script type='module' src='/dist/contourdemo.js'></script>  
+  
+</body>
+
+</html>

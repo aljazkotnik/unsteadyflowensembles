@@ -5,124 +5,127 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Harnessing Spatial Representations</title>
+  <title>Unsteady Flow Ensembles</title>
   
   <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
   
-  <link rel="stylesheet" href="/harnessingspacewebsite/style/ieee_webpage.css">
+  <link rel="stylesheet" href="/style/aiaa_webpage.css">
   
   
 
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&family=Roboto:wght@300&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="/harnessingspacewebsite/style/font-awesome_4.7.0.min.css">
+  <link rel="stylesheet" href="/style/font-awesome_4.7.0.min.css">
   
 </head>
 
 <body>
 
 
-<h1>INTERACTIVE DISCOVERY OF CAUSE-EFFECT
-RELATIONSHIPS</h1>
+<h1>INTERACTIVE EXPLORATION OF UNSTEADY ENSEMBLE FLOW FIELDS</h1>
 
   <div>
 
-	<p>Discovering cause-and-effect relationships, the links between input parameters to an experiment or simulation and the observed outcome, is fundamental to the scientific process. An understanding of the underlying mechanisms responsible for these connections is the key transferable learning to be derived. In many cases, data collected to study these mechanisms is best represented by images. The scientist’s domain knowledge is crucial for image interpretation and in cases where results contain large numbers of images, the necessary human-data interaction becomes the bottleneck of the analysis and discovery process. To accelerate this step, we propose a conceptual framework to reduce the number of detailed image analyses and comparisons required to gain a full understanding of cause-and-effect relationships.</p>
+	<p>Discovering cause-and-effect relationships, the links between input parameters to an experiment or simulation and the observed outcome, is fundamental to the aerodynamic design process. An understanding of the underlying flow mechanisms responsible for these connections is the key transferable learning to be derived. The engineer’s domain knowledge is crucial for flow-field data interpretation and, in design studies containing large numbers of cases, the necessary human-data interaction becomes the bottleneck of the process.</p>
+	
+	<p>We demonstrate a conceptual framework that accelerates this step by reducing the number of detailed flow-field visualisation analyses and comparisons required to gain a full understanding of cause-andeffect relationships.</p>
+	
+	<p>To demonstrate the proposed conceptual framework we introduce a new openly available dataset of 2D turbine designs. Three demos with this data are available for interaction. Advantages and limitations of sharing unsteady data visualisations using web-browsers are discussed.</p>
+	
+	
 
   </div>
 
 
-<h2><span>Harnessing Spatial Encodings</span></h2>
+<h2><span>Leveraging Spatial Arrangement</span></h2>
 
   <div>
   
+    <p>To accelerate the exploration and analysis of large ensembles of flow field data we propose and demonstrate a two step conceptual framework, which aims to reduce the number of detailed flow-field analyses and comparisons needed to gain a full understanding of cause-and-effect relationships.</p>
+
     <div>
 	  <figure>
-	    <img style="max-width: 45%;" src="/harnessingspacewebsite/images/correlations.png" alt="alt1">
+	    <img style="width: 32%;" src="/images/arrangement.svg" alt="alt1">
 		
-	    <img style="max-width: 45%;" src="/harnessingspacewebsite/images/knowledge_capture.png" alt="alt2">
+	    <img style="width: 32%;" src="/images/srcc.svg" alt="alt2">
+		
+		<img style="width: 32%;" src="/images/correlations.svg" alt="alt2">
 	  </figure>
 	</div>
-
-	<p>Our approach allows scientists to visually encode their interpretation of an image set by interactively manipulating the on-screen location of the images. To identify cause-and-effect relationships, this spatial arrangement is then correlated with the input and outcome metadata associated with each image.</p>
-
-	<p>A variety of tools to meaningfully group images, capture knowledge represented by the groups, and establish the representative behavior of a group and its variability, are incorporated to provide guidance to the practitioner and accelerate the process.</p>
+	
+	<p>Our approach allows engineers to visually encode their interpretation of flow-field visualisations by interactively adjusting the on-screen location of the data plots. To identify potential cause-and-effect relationships, this spatial arrangement is then correlated with the input and output metadata associated with each flow-field case. This approach is suitable for any visualisation that includes aspects of the underlying physical processes, and a web browser-based implementation is demonstrated.</p>
 
   </div>
+  
+  
 
-<h2><span>Example Cases</span></h2>
+
+<h2><span>Unsteady Data Visualisation Demos</span></h2>
+
+ 
 
   <div>
+  
+     <p>We introduce a freely available example dataset consisting of unsteady CFD solutions of 2D turbine designs, illustrate the utility of the spatial arrangement framework by applying it to the dataset, and demonstrate the advantages and limitations of visualising unsteady data in the web-browser.</p>
 
-	<p>We illustrate the utility of the framework with examples including classification of images using machine learning, analysis of metal micro-structures in material science and engineering simulations of the flow around airfoils.</p>
-	
-	<div>
-	  <figure>
-	    <a href="/harnessingspacewebsite/examples/airfoils/airfoils.html" style="text-decoration: none;">
-	      <img src="/harnessingspacewebsite/images/airfoils_thumbnail.png" alt="alt1">
-	    </a>
-		
-		<a href="/harnessingspacewebsite/examples/animals/animals.html" style="text-decoration: none;">
-	      <img src="/harnessingspacewebsite/images/animals_thumbnail.png" alt="alt2">
-	    </a>
-	  
-	    <img src="/harnessingspacewebsite/images/placeholder.png" alt="alt3">
-	  </figure>
-	</div>
-	
+	<p>The three demos of unsteady data.</p>
 	
   </div>
+  
+  <div style="max-width: 900px;">
+	  <figure>
+	    <a href="/scatterplot.html" style="text-decoration: none;">
+	      <img src="/images/Scatterplot.svg" alt="alt1">
+	    </a>
+		
+		<a href="/lineplot.html" style="text-decoration: none;">
+	      <img src="/images/Line.svg" alt="alt2">
+	    </a>
+	  
+	    <a href="/contours.html" style="text-decoration: none;">
+	      <img src="/images/Contours.svg" alt="alt3">
+	    </a>
+	  </figure>
+	</div>
 
+
+<h2><span>Sharing Unsteady Data in Web-Browsers</span></h2>
+
+  <div>
+    <p>The advantage of visualising unsteady data in the browser is that the interactivity is retained: figures can be zoomed and panned on-the-fly. Furthermore, by visualising the data in the browser sharing the data while retaining interactivity is made easier: the recipient of the link to the visualisation doesn't need to have special software install, and the visualisations are drawn when the web-page loads.</p>
+
+    <p>The limitations are internet speed and browser memory. There is a handy chart that tells which unsteady datasets can be analysed in the browser and which not.</p>
+  </div>
 
 
 
 <h2><span>Draft Publication</span></h2>
 
-  <div>
+  <div style="max-width: 650px; position: relative; left: 20px;">
 
 	<article>
 	  
 	  <h4>
-		<a href="/harnessingspacewebsite/IEEE_Harnessing_Spatial_Representations_of_Image_Collections_in_the_Discovery_of_Cause-and-Effect Relationships_in_Data.pdf" target="_blank" slot="title"><b>Harnessing Spatial Representations of Image Collections in the Discovery of Cause-And-Effect Relationships in Data</b></a>
+		<a href="AIAA_A_Spatial_Arrangement_Visualisation_Strategy_for_Learning_from_Large_Ensembles_of_Flow-field_Data.pdf" target="_blank" slot="title"><b>A Spatial Arrangement Visualisation Strategy for Learning from Large Ensembles of Flow-field Data</b></a>
 	  </h4>
 	  <p>Aljaz Kotnik and Graham Pullan</p>
-	  <p>Submitted to IEEE VIS 2021</p>
+	  <p>Submitted to AIAA SciTech 2021</p>
 	</article>
 
   </div>
 
-<h2><span>Code & Data</span></h2>
+<h2><span>Data</span></h2>
 
 
   <div>
 
-	<b>All the code is available on GitHub:</b>
-
-	<ul>
-	  <li>
-		<i class="fa fa-github"></i>
-		<a href="https://github.com/aljazkotnik/harnessingspace" target="_blank">github.com/aljazkotnik/harnessingspace</a>
-	  </li>
-	</ul>
-
-
-	<b>For the demos we used data from the following sources:</b>
+	<b>The openly available dataset of 69 unsteady 2D turbine desings is available at:</b>
 
 	<ul class="no-list-style">
 	  <li>
 		<i class="fa fa-database"></i>
-		<a href="https://github.com/aljazkotnik/harnessingspace/tree/main/data/xfoil2d" target="_blank">Airfoil data available at our GitHub</a>
-	  </li>
-	  
-	  <li>
-		<i class="fa fa-database"></i>
-		<a href="https://www.kaggle.com/alessiocorrado99/animals10" target="_blank">Animals10 images hosted by Kaggle</a>
-	  </li>
-	  
-	  <li>
-		<i class="fa fa-database"></i>
-		<a href="https://materialsdata.nist.gov/handle/11256/940" target="_blank">Steel micrography data by DeCost et al. 2017</a>
+		<a href="somestoreagespace" target="_blank">Name of storage service</a>
 	  </li>
 	</ul>
 
