@@ -135,7 +135,7 @@
   var css$1 = {
     card: "\n\t  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\n\t  position: relative;\n\t  left: 0px;\n\t  top: 0px;\n\t  display: inline-block;\n\t",
     cardHeader: "\n\t  width: 100%;\n\t  background-color: white;\n\t  cursor: grab;\n\t  display: inline-block;\n\t",
-    plotTitle: "\n\t  width: 80%;\n      overflow: hidden; \n      white-space: nowrap; \n      text-overflow: ellipsis;\n\t  display: inline-block;\n\t  cursor: text;\n\t  margin: 8px 0px 0px 4px;\n\t  font-weight: bold;\n\t  font-size: 16px;\n\t  border: none;\n\t",
+    plotTitle: "\n      overflow: hidden; \n      white-space: nowrap; \n      text-overflow: ellipsis;\n\t  display: inline-block;\n\t  cursor: text;\n\t  margin: 8px 0px 0px 4px;\n\t  font-weight: bold;\n\t  font-size: 16px;\n\t  border: none;\n\t",
     // Buttons
     btn: "\n\t  border: none;\n\t  border-radius: 12px;\n\t  text-align: center;\n\t  text-decoration: none;\n\t  display: inline-block;\n\t  font-size: 20px;\n\t  margin: 4px 2px;\n\t  cursor: pointer;\n    ",
     btnSubmit: "\n\t  background-color: mediumSeaGreen; \n\t  color: white;\n    ",
@@ -10468,12 +10468,12 @@
         obj.svgobj.xmenu.variables = [{
           name: "blockage_unst",
           axistype: "linear",
-          extent: [0.013, 0.029]
+          extent: [0.014, 0.029]
         }];
         obj.svgobj.ymenu.variables = [{
           name: "eff_lost_unst",
           axistype: "linear",
-          extent: [-0.01, 0.06]
+          extent: [0, 0.06]
         }];
       }); // How to handle the buffering update? Just keep continuously updating it? Maybe just base the buffering on hte amount of the full data that was loaded in?
 
@@ -10541,13 +10541,11 @@
           // On the first draw the objects are just scheduled for drawing. In subsequent draws they should execute immediately.
           obj.items.forEach(function (ud) {
             ud.promises[0].then(function (d) {
-              if (!ud.attached) {
-                gback.appendChild(ud.node_outline);
-                gdata.appendChild(ud.node_current);
-                ud.attached = true;
-              } // if				
+              // if(!ud.attached){
+              gback.appendChild(ud.node_outline);
+              gdata.appendChild(ud.node_current);
+              ud.attached = true; // } // if				
               // let t0 = performance.now();
-
 
               ud.update(xaxis, yaxis); // console.log(`Draw took ${performance.now() - t0}ms`)
             }); // then
@@ -10717,12 +10715,12 @@
       obj.plot.svgobj.xmenu.variables = [{
         name: "blockage_unst",
         axistype: "linear",
-        extent: [-0.034, -0.023]
+        extent: [0.014, 0.029]
       }];
       obj.plot.svgobj.ymenu.variables = [{
         name: "eff_lost_unst",
         axistype: "linear",
-        extent: [0, 0.55]
+        extent: [0, 0.06]
       }];
       obj.plot.svgobj.needsupdate = true; // Calculate where the node should be added. Store the original positions on the items, as long as they are in the group.
 
@@ -10780,6 +10778,7 @@
         // Let's a single data item be released from the group.
         var obj = this;
         item.items.forEach(function (ud) {
+          obj.plot.items.splice(obj.plot.items.indexOf(ud), 1);
           ud.attached = false;
         });
         item.svgobj.needsupdate = true;
@@ -11060,7 +11059,25 @@
             x: item.node.offsetLeft + item.node.offsetWidth / 2,
             y: item.node.offsetTop + item.node.offsetHeight / 2
           });
-        });
+        }); // Dissolver any groups within hte lasso.
+
+        obj.groups = obj.groups.filter(function (item) {
+          var groupcircled = obj.lasso.isPointInside({
+            x: item.node.offsetLeft + item.node.offsetWidth / 2,
+            y: item.node.offsetTop + item.node.offsetHeight / 2
+          });
+
+          if (groupcircled) {
+            // Remove the group, and return false
+            item.remove();
+            selected = selected.concat(item.members); // To force this plot from stopping updating...
+
+            item.plot.svgobj.x.variable.name = undefined;
+            return false;
+          } else {
+            return true;
+          }
+        }); // filter
 
         if (selected.length > 0) {
           obj.makeGroup(selected, []);
@@ -11151,6 +11168,63 @@
         }; // function
 
       } // makeGroup
+
+      /* LINE PLOT
+      makeInitGroup(members){
+      let obj = this;
+      
+      // Just make a new plot with the items given, and hide those items.
+      let newgroup = new StackableGroup(members);
+      
+      // Append the group into he container
+      obj.container.appendChild(newgroup.node);
+      
+      newgroup.node.style.left = "0px";
+      newgroup.node.style.top = "80px";
+      
+      newgroup.enter = function(){
+      // By removing the current group its members reappear on screen.
+      newgroup.remove();
+      } // function
+      
+      
+      members.forEach(item=>{
+      Promise.all(item.promises).then(d=>{
+      	newgroup.add(item)
+      })
+      })
+      
+      // Remvoe the enter button.
+      newgroup.node.querySelector("button.enter").remove();
+      } // makeInitGroup
+      */
+
+    }, {
+      key: "makeInitGroup",
+      value: function makeInitGroup(members) {
+        var obj = this; // Just make a new plot with the items given, and hide those items.
+
+        var newgroup = new StackableGroup(members); // Append the group into he container
+
+        obj.container.appendChild(newgroup.node);
+        newgroup.node.style.left = "0px";
+        newgroup.node.style.top = "80px";
+
+        newgroup.enter = function () {
+          // By removing the current group its members reappear on screen.
+          newgroup.remove();
+        }; // function
+
+
+        members.forEach(function (item) {
+          Promise.all(item.promises).then(function (d) {
+            newgroup.add(item);
+          });
+        }); // Is it again a updating issue??
+        // Remvoe the enter button.
+
+        newgroup.node.querySelector("button.enter").remove();
+      } // makeInitGroup
 
     }, {
       key: "getCurrentPositions",
@@ -11663,7 +11737,10 @@
     document.querySelector("button.correlations").onclick = function () {
       sp.show();
     }; // onclick
+    // Initially create a single group. It'll have zero data at the beginning. As the promises are evaluated keep adding it to the plot.
 
+
+    gc.makeInitGroup(gc.items);
   }); // then
 
 }());

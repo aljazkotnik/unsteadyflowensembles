@@ -10770,7 +10770,8 @@
       var obj = this;
       obj.node = html2element(template$1); // Make hte necessary plot. Make it empty and then append the items directly to avoid reloading all the data.
 
-      obj.plot = new unsteadyLinePlot([]);
+      obj.plot = new unsteadyLinePlot([]); //obj.plot = new unsteadyScatterPlot([]);
+
       obj.node.querySelector("div.item-proxy").appendChild(obj.plot.node);
       obj.draghandle = obj.plot.draghandle;
       obj.members = members;
@@ -10789,7 +10790,13 @@
         axistype: "linear",
         extent: [1140, 1260]
       }];
-      obj.plot.svgobj.needsupdate = true; // Calculate where the node should be added. Store the original positions on the items, as long as they are in the group.
+      obj.plot.svgobj.needsupdate = true;
+      /*
+      obj.plot.svgobj.xmenu.variables = [{name: "blockage_unst", axistype: "linear", extent: [-0.034, -0.023]}];
+      obj.plot.svgobj.ymenu.variables = [{name: "eff_lost_unst", axistype: "linear", extent: [0,0.55]}];
+      obj.plot.svgobj.needsupdate = true;
+      */
+      // Calculate where the node should be added. Store the original positions on the items, as long as they are in the group.
 
       var n = members.length;
       var pos = members.reduce(function (acc, item) {
@@ -11125,7 +11132,25 @@
             x: item.node.offsetLeft + item.node.offsetWidth / 2,
             y: item.node.offsetTop + item.node.offsetHeight / 2
           });
-        });
+        }); // Dissolver any groups within hte lasso.
+
+        obj.groups = obj.groups.filter(function (item) {
+          var groupcircled = obj.lasso.isPointInside({
+            x: item.node.offsetLeft + item.node.offsetWidth / 2,
+            y: item.node.offsetTop + item.node.offsetHeight / 2
+          });
+
+          if (groupcircled) {
+            // Remove the group, and return false
+            item.remove();
+            selected = selected.concat(item.members); // To force this plot from stopping updating...
+
+            item.plot.svgobj.x.variable.name = undefined;
+            return false;
+          } else {
+            return true;
+          }
+        }); // filter
 
         if (selected.length > 0) {
           obj.makeGroup(selected, []);
@@ -11216,6 +11241,32 @@
         }; // function
 
       } // makeGroup
+
+    }, {
+      key: "makeInitGroup",
+      value: function makeInitGroup(members) {
+        var obj = this; // Just make a new plot with the items given, and hide those items.
+
+        var newgroup = new StackableGroup(members); // Append the group into he container
+
+        obj.container.appendChild(newgroup.node);
+        newgroup.node.style.left = "0px";
+        newgroup.node.style.top = "80px";
+
+        newgroup.enter = function () {
+          // By removing the current group its members reappear on screen.
+          newgroup.remove();
+        }; // function
+
+
+        members.forEach(function (item) {
+          Promise.all(item.promises).then(function (d) {
+            newgroup.add(item);
+          });
+        }); // Remvoe the enter button.
+
+        newgroup.node.querySelector("button.enter").remove();
+      } // makeInitGroup
 
     }, {
       key: "getCurrentPositions",
@@ -11731,7 +11782,10 @@
     document.querySelector("button.correlations").onclick = function () {
       sp.show();
     }; // onclick
+    // Initially create a single group. It'll have zero data at the beginning. As the promises are evaluated keep adding it to the plot.
 
+
+    gc.makeInitGroup(gc.items);
   }); // then
 
 }());
